@@ -21,8 +21,10 @@ public class MenuAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         View menuEntryView = inflater.inflate(R.layout.fragment_main_menu_entry, parent, false);
         TextView menuHeadingView = (TextView) menuEntryView.findViewById(R.id.fragment_main_tv_menu_heading);
+
         menuHeadingView.setText(values[position]);
         return menuEntryView;
     }
