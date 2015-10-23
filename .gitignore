@@ -1,9 +1,6 @@
 .gradle
 /local.properties
-.idea/workspace.xml
-.idea/libraries
-.idea/gradle.xml
-.idea/modules.xml
+.idea/
 sap-menus-app.iml
 app/app.iml
 settings.gradle
