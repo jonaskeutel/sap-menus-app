@@ -7,9 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-/**
- * Created by jonas on 22.10.2015.
- */
 public class MenuAdapter extends ArrayAdapter<String> {
 
     private final Context context;
