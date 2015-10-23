@@ -2,6 +2,11 @@
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
+/.idea/gradle.xml
+/.idea/modules.xml
+/sap-menus-app.iml
+/app/app.iml
+settings.gradle
 .DS_Store
 /build
 /captures
