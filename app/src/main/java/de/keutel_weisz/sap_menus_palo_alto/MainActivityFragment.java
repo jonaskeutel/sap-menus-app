@@ -5,11 +5,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
+    Button myButton;
+    ListView menuView;
 
     public MainActivityFragment() {
     }
@@ -17,6 +24,15 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        final View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        menuView = (ListView) view.findViewById(R.id.fragment_main_lv_menu);
+
+        String[] menuEntries = {"Burger", "Panini", "Salad"};
+        MenuAdapter adapter = new MenuAdapter(getContext(), menuEntries);
+
+        menuView.setAdapter(adapter);
+
+        return view;
     }
 }
