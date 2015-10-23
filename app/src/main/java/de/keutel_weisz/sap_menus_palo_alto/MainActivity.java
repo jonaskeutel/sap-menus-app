@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Log.v(LOG_TAG, "You just clicked on the the settings menu entry.");
             Toast.makeText(this, "Mein erster Toast!", Toast.LENGTH_LONG).show();
             return true;
         }
