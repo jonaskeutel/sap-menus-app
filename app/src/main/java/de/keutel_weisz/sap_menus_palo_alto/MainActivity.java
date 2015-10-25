@@ -46,11 +46,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // ViewPager and its adapters use support library
-        // fragments, so use getSupportFragmentManager.
-        cafeMenuPagerAdapter =
-                new CafeMenuPagerAdapter(
-                        getSupportFragmentManager());
+
+        cafeMenuPagerAdapter = new CafeMenuPagerAdapter(getSupportFragmentManager());
         cafeMenuViewPager = (ViewPager) findViewById(R.id.activity_main_cafe_menu_viewpager);
         cafeMenuViewPager.setAdapter(cafeMenuPagerAdapter);
 
@@ -79,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    class CafeMenuPagerAdapter extends FragmentPagerAdapter {
+    private class CafeMenuPagerAdapter extends FragmentPagerAdapter {
 
         CafeMenuFragment[] fragments;
 
@@ -109,6 +106,11 @@ public class MainActivity extends AppCompatActivity {
             fragments[position] = cafeMenuFragment;
 
             return cafeMenuFragment;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Café " + CAFE_IDS[position];
         }
 
     }
