@@ -1,19 +1,35 @@
 package de.keutel_weisz.sap_menus_palo_alto;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
+
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
     static final String LOG_TAG = "MAIN_ACTIVITY";
 
+    final int[] CAFE_IDS = {1, 3, 8};
+    final int NUM_CAFES = CAFE_IDS.length;
+
     FloatingActionButton refreshButton;
-    MainActivityFragment mainActivityFragment;
+
+    CafeMenuPagerAdapter cafeMenuPagerAdapter;
+    ViewPager cafeMenuViewPager;
+
+    MenuBackendClient backendClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +38,21 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mainActivityFragment = (MainActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_main);
-
         refreshButton = (FloatingActionButton) findViewById(R.id.activity_main_btn_refresh);
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainActivityFragment.refreshMenu();
+                (new ApiCallerTask()).execute("today");
             }
         });
+
+        // ViewPager and its adapters use support library
+        // fragments, so use getSupportFragmentManager.
+        cafeMenuPagerAdapter =
+                new CafeMenuPagerAdapter(
+                        getSupportFragmentManager());
+        cafeMenuViewPager = (ViewPager) findViewById(R.id.activity_main_cafe_menu_viewpager);
+        cafeMenuViewPager.setAdapter(cafeMenuPagerAdapter);
 
     }
 
@@ -55,5 +77,70 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    class CafeMenuPagerAdapter extends FragmentPagerAdapter {
+
+        CafeMenuFragment[] fragments;
+
+        public CafeMenuPagerAdapter(FragmentManager fm) {
+            super(fm);
+            fragments = new CafeMenuFragment[NUM_CAFES];
+
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_CAFES;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            CafeMenuFragment fragment = new CafeMenuFragment();
+            fragment.setCafeId(CAFE_IDS[position]);
+            return fragment;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            CafeMenuFragment cafeMenuFragment = (CafeMenuFragment) super.instantiateItem(container, position);
+
+            // Keep reference of newly instantiated fragment in array to make it accessible later
+            fragments[position] = cafeMenuFragment;
+
+            return cafeMenuFragment;
+        }
+
+    }
+
+
+    private class ApiCallerTask extends AsyncTask<String, Void, List<DayMenu>> {
+        private static final String TAG = "ApiCaller";
+
+        @Override
+        public List<DayMenu> doInBackground(String... s) {
+            backendClient = new MenuBackendClient();
+            List<DayMenu> weekMenu = backendClient.getWeekMenu();
+
+
+            return weekMenu;
+        }
+
+        public void onPostExecute(List<DayMenu> res) {
+            if (res.isEmpty()) {
+                Toast.makeText(MainActivity.this, "Couldn't get menu. Weekend!", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            for (int cafeIndex = 0; cafeIndex < NUM_CAFES; cafeIndex++) {
+                CafeMenuFragment cafeFragment = cafeMenuPagerAdapter.fragments[cafeIndex];
+                if (cafeFragment != null) {
+                    cafeFragment.updateMenuItems(
+                            res.get(0).getMenuItemsByCafe(CAFE_IDS[cafeIndex]));
+                }
+            }
+
+        }
+
     }
 }

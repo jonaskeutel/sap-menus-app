@@ -15,7 +15,13 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/activity_main_cafe_menu_viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
 
     <android.support.design.widget.FloatingActionButton android:id="@+id/activity_main_btn_refresh"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
