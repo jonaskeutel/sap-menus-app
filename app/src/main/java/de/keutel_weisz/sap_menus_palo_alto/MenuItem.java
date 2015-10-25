@@ -8,11 +8,16 @@ package de.keutel_weisz.sap_menus_palo_alto;
  */
 public class MenuItem {
 
-    private String name;
+    private String label;
     private String description;
 
-    public String getName() {
-        return name;
+    public MenuItem(String label) {
+        this.label = label;
+
+    }
+
+    public String getLabel() {
+        return label;
     }
 
     public String getDescription() {

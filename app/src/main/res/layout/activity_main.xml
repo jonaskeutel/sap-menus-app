@@ -17,9 +17,9 @@
 
     <include layout="@layout/content_main" />
 
-    <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
+    <android.support.design.widget.FloatingActionButton android:id="@+id/activity_main_btn_refresh"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+        android:layout_gravity="bottom|end" android:layout_margin="@dimen/activity_main_default_margin"
+        android:src="@android:drawable/ic_menu_rotate" />
 
 </android.support.design.widget.CoordinatorLayout>

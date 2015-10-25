@@ -7,15 +7,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class MenuAdapter extends ArrayAdapter<String> {
+public class MenuAdapter extends ArrayAdapter<MenuItem> {
 
     private final Context context;
-    private final String[] values;
+    private final MenuItem[] items;
 
-    public MenuAdapter(Context context, String[] values) {
-        super(context, -1, values);
+    public MenuAdapter(Context context, MenuItem[] items) {
+        super(context, -1, items);
         this.context = context;
-        this.values = values;
+        this.items = items;
     }
 
     @Override
@@ -25,7 +25,9 @@ public class MenuAdapter extends ArrayAdapter<String> {
         View menuEntryView = inflater.inflate(R.layout.fragment_main_menu_entry, parent, false);
         TextView menuHeadingView = (TextView) menuEntryView.findViewById(R.id.fragment_main_tv_menu_heading);
 
-        menuHeadingView.setText(values[position]);
+        MenuItem item = items[position];
+
+        menuHeadingView.setText(item.getLabel());
         return menuEntryView;
     }
 }
