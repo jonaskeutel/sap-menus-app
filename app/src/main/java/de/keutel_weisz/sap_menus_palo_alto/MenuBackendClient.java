@@ -2,6 +2,7 @@ package de.keutel_weisz.sap_menus_palo_alto;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,9 +17,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by michael on 22/10/15.
- */
 public class MenuBackendClient {
     final String LOG_TAG = getClass().getSimpleName();
 
@@ -30,27 +28,9 @@ public class MenuBackendClient {
 
     List<DayMenu> weekMenu;
 
-    /**
-     * Self Test and Demo
-     *
-     * @param args command-line args
-     */
-    public static void main(String args[]) {
-        MenuBackendClient client = new MenuBackendClient();
+    enum STATUS_CODES {OK, WEEKEND, ERROR }
 
-        // Print menu for the entire week
-        List<DayMenu> weekMenu = client.getWeekMenu();
-        for (DayMenu dayMenu : weekMenu) {
-            System.out.println("Date: " + dayMenu.getDate());
-            for (int cafeId : dayMenu.getCafeIds()) {
-                System.out.println("\tCafe: " + cafeId);
-                for (MenuItem menuItem : dayMenu.getMenuItemsByCafe(cafeId)) {
-                    System.out.println("\t\t" + menuItem.getName());
-                }
-            }
-        }
 
-    }
 
     public List<DayMenu> getWeekMenu() {
 
@@ -62,15 +42,18 @@ public class MenuBackendClient {
         return weekMenu;
     }
 
-    private List<DayMenu> fetchWeekMenuFromServer(){
+    private List<DayMenu> fetchWeekMenuFromServer() {
         // Make Call to Backend
-        String endpoint = "http://" + HOSTNAME + ":" +  PORT + "/" + ENDPOINT_WEEK_MENU;
+        String endpoint = "http://" + HOSTNAME + ":" + PORT + "/" + ENDPOINT_TODAY_MENU;
         String rawJSON = performGETRequest(endpoint);
 
         // Parse JSON and populate weekMenu
         List<DayMenu> weekMenu = null;
-        if(rawJSON != null) {
+        if (rawJSON != null) {
             weekMenu = parseJSON(rawJSON);
+        } else { // Server not reachable
+            Log.e(LOG_TAG, "Could not get JSON. Server is not available.");
+            weekMenu = new ArrayList<>();
         }
 
         return weekMenu;
@@ -78,16 +61,42 @@ public class MenuBackendClient {
 
 
     private List<DayMenu> parseJSON(String rawJSON) {
-        ArrayList<DayMenu> dayMenus = new ArrayList<DayMenu>();
-        try {
-            JSONObject json = new JSONObject(rawJSON);
 
-//            JSONObject week1JSON = json.getJSONObject("0");
-//            JSONObject cafe1JSON = week1JSON.getJSONObject("cafe1");
-//            System.out.println(cafe1JSON.getString("0"));
+        ArrayList<DayMenu> dayMenus = new ArrayList<>();
+        try {
+            JSONObject menuDataJSON = new JSONObject(rawJSON);
+            JSONArray daysJSON = menuDataJSON.getJSONArray("content");
+            int statusCode = menuDataJSON.getInt("statusCode");
+
+            if (statusCode != STATUS_CODES.OK.ordinal()) {
+                // TODO: Handle other status codes (e.g. weekend) accordingly
+                Log.i(LOG_TAG, "Backend returned with status code: " + statusCode);
+                return dayMenus;
+            }
+
+            for (int dayIndex = 0; dayIndex < daysJSON.length(); dayIndex++) {
+                JSONArray dayMenuJSON = daysJSON.getJSONArray(dayIndex);
+
+                DayMenu dayMenu = new DayMenu();
+                for (int cafeIndex = 0; cafeIndex < dayMenuJSON.length(); cafeIndex++) {
+                    JSONObject cafeJSON = dayMenuJSON.getJSONObject(cafeIndex);
+                    int cafeId = cafeJSON.getInt("cafeId");
+                    JSONArray menuItemsJSON = cafeJSON.getJSONArray("menuItems");
+
+                    List<MenuItem> menuItems = new ArrayList<>();
+                    for (int menuItemIndex = 0; menuItemIndex < menuItemsJSON.length(); menuItemIndex++) {
+                        String label = menuItemsJSON.getString(menuItemIndex);
+                        MenuItem item = new MenuItem(label);
+                        menuItems.add(item);
+                    }
+                    dayMenu.setMenuItemsForCafe(menuItems, cafeId);
+                }
+                dayMenus.add(dayMenu);
+            }
+
 
         } catch (JSONException ex) {
-        //    Log.e(LOG_TAG, "Error parsing JSON.");
+            Log.e(LOG_TAG, "Error parsing JSON.");
             ex.printStackTrace();
         }
 
@@ -111,7 +120,7 @@ public class MenuBackendClient {
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String line = null;
-            while ((line = reader.readLine()) != null ) {
+            while ((line = reader.readLine()) != null) {
                 output.append(line);
             }
         } catch (IOException ioException) {
