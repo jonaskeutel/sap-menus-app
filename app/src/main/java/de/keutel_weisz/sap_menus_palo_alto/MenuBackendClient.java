@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MenuBackendClient {
@@ -44,7 +45,7 @@ public class MenuBackendClient {
 
     private List<DayMenu> fetchWeekMenuFromServer() {
         // Make Call to Backend
-        String endpoint = "http://" + HOSTNAME + ":" + PORT + "/" + ENDPOINT_WEEK_MENU;
+        String endpoint = "http://" + HOSTNAME + ":" + PORT + "/" + ENDPOINT_TODAY_MENU;
         String rawJSON = performGETRequest(endpoint);
 
         // Parse JSON and populate weekMenu
@@ -74,22 +75,37 @@ public class MenuBackendClient {
                 return dayMenus;
             }
 
+            // Parse each day
             for (int dayIndex = 0; dayIndex < daysJSON.length(); dayIndex++) {
                 JSONArray dayMenuJSON = daysJSON.getJSONArray(dayIndex);
 
                 DayMenu dayMenu = new DayMenu();
+
+                // Parse each cafe
                 for (int cafeIndex = 0; cafeIndex < dayMenuJSON.length(); cafeIndex++) {
                     JSONObject cafeJSON = dayMenuJSON.getJSONObject(cafeIndex);
                     int cafeId = cafeJSON.getInt("cafeId");
-                    JSONArray menuItemsJSON = cafeJSON.getJSONArray("menuItems");
 
-                    List<MenuItem> menuItems = new ArrayList<>();
-                    for (int menuItemIndex = 0; menuItemIndex < menuItemsJSON.length(); menuItemIndex++) {
-                        String label = menuItemsJSON.getString(menuItemIndex);
-                        MenuItem item = new MenuItem(label);
-                        menuItems.add(item);
+                    JSONArray categoriesJSON = cafeJSON.getJSONArray("categories");
+
+                    // Parse each category
+                    HashMap<String, List<MenuItem>> categoriesByCafe = new HashMap<>();
+                    for (int categoryIndex = 0; categoryIndex < categoriesJSON.length(); categoryIndex++) {
+                        JSONObject categoryJSON = categoriesJSON.getJSONObject(categoryIndex);
+                        JSONArray menuItemsJSON = categoryJSON.getJSONArray("menuItems");
+                        String categoryLabel = categoryJSON.getString("label");
+
+
+                        // Parse each menuItem
+                        List<MenuItem> menuItems = new ArrayList<>();
+                        for (int menuItemIndex = 0; menuItemIndex < menuItemsJSON.length(); menuItemIndex++) {
+                            String label = menuItemsJSON.getString(menuItemIndex);
+                            MenuItem item = new MenuItem(label);
+                            menuItems.add(item);
+                        }
+                        categoriesByCafe.put(categoryLabel, menuItems);
+                        dayMenu.setCategoriesForCafe(categoriesByCafe, cafeId);
                     }
-                    dayMenu.setMenuItemsForCafe(menuItems, cafeId);
                 }
                 dayMenus.add(dayMenu);
             }

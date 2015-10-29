@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         cafeMenuViewPager = (ViewPager) findViewById(R.id.activity_main_cafe_menu_viewpager);
         cafeMenuViewPager.setAdapter(cafeMenuPagerAdapter);
 
+
     }
 
     @Override
@@ -138,7 +139,8 @@ public class MainActivity extends AppCompatActivity {
                 CafeMenuFragment cafeFragment = cafeMenuPagerAdapter.fragments[cafeIndex];
                 if (cafeFragment != null) {
                     cafeFragment.updateMenuItems(
-                            res.get(0).getMenuItemsByCafe(CAFE_IDS[cafeIndex]));
+                            res.get(0).getCategoriesForCafe(CAFE_IDS[cafeIndex])
+                    );
                 }
             }
 

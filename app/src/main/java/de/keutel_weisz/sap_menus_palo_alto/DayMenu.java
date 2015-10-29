@@ -10,14 +10,14 @@ import java.util.List;
  */
 public class DayMenu {
 
-    HashMap<Integer, List<MenuItem>> menuItemsByCafe;
+    HashMap<Integer, HashMap<String, List<MenuItem>>> categoriesByCafe;
 
     public DayMenu() {
-        menuItemsByCafe = new HashMap<>();
+        categoriesByCafe = new HashMap<>();
     }
 
-    public void setMenuItemsForCafe(List<MenuItem> menuItems, int cafeId){
-        menuItemsByCafe.put(cafeId, menuItems);
+    public void setCategoriesForCafe(HashMap<String, List<MenuItem>> categories, int cafeId){
+        categoriesByCafe.put(cafeId, categories);
     }
 
 
@@ -38,7 +38,7 @@ public class DayMenu {
      * @param cafeId cafe of interest
      * @return list of menu items.
      */
-    public List<MenuItem> getMenuItemsByCafe(int cafeId) {
-        return menuItemsByCafe.get(cafeId);
+    public HashMap<String, List<MenuItem>> getCategoriesForCafe(int cafeId) {
+        return categoriesByCafe.get(cafeId);
     }
 }
