@@ -45,8 +45,10 @@ public class MenuBackendClient {
 
     private List<DayMenu> fetchWeekMenuFromServer() {
         // Make Call to Backend
-        //String endpoint = "http://" + HOSTNAME + ":" + PORT + "/" + ENDPOINT_TODAY_MENU;
-        String endpoint = "http://" + "192.168.1.236:" + PORT + "/" + ENDPOINT_TODAY_MENU;
+        String endpoint = "http://" + HOSTNAME + ":" + PORT + "/" + ENDPOINT_TODAY_MENU;
+        
+        // when testing:
+        //String endpoint = "http://" + "192.168.1.236:" + PORT + "/" + ENDPOINT_TODAY_MENU;
         String rawJSON = performGETRequest(endpoint);
 
         // Parse JSON and populate weekMenu
