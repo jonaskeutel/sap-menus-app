@@ -11,8 +11,9 @@ public class MenuItem {
     private String label;
     private String description;
 
-    public MenuItem(String label) {
+    public MenuItem(String label, String description) {
         this.label = label;
+        this.description = description;
 
     }
 

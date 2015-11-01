@@ -45,11 +45,12 @@ public class MenuBackendClient {
 
     private List<DayMenu> fetchWeekMenuFromServer() {
         // Make Call to Backend
-        String endpoint = "http://" + HOSTNAME + ":" + PORT + "/" + ENDPOINT_TODAY_MENU;
+        //String endpoint = "http://" + HOSTNAME + ":" + PORT + "/" + ENDPOINT_TODAY_MENU;
+        String endpoint = "http://" + "192.168.1.236:" + PORT + "/" + ENDPOINT_TODAY_MENU;
         String rawJSON = performGETRequest(endpoint);
 
         // Parse JSON and populate weekMenu
-        List<DayMenu> weekMenu = null;
+        List<DayMenu> weekMenu;
         if (rawJSON != null) {
             weekMenu = parseJSON(rawJSON);
         } else { // Server not reachable
@@ -99,8 +100,10 @@ public class MenuBackendClient {
                         // Parse each menuItem
                         List<MenuItem> menuItems = new ArrayList<>();
                         for (int menuItemIndex = 0; menuItemIndex < menuItemsJSON.length(); menuItemIndex++) {
-                            String label = menuItemsJSON.getString(menuItemIndex);
-                            MenuItem item = new MenuItem(label);
+                            JSONObject menuItemJSON = menuItemsJSON.getJSONObject(menuItemIndex);
+                            String label = menuItemJSON.getString("label");
+                            String description = menuItemJSON.getString("description");
+                            MenuItem item = new MenuItem(label, description);
                             menuItems.add(item);
                         }
                         categoriesByCafe.put(categoryLabel, menuItems);
@@ -135,7 +138,7 @@ public class MenuBackendClient {
             urlConnection = (HttpURLConnection) url.openConnection();
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
                 output.append(line);
             }

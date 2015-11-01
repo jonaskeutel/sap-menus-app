@@ -2,6 +2,9 @@ package de.keutel_weisz.sap_menus_palo_alto;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +55,14 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.fragment_main_tv_menu_heading);
 
-        txtListChild.setText(menuItem.getLabel());
+        String label = menuItem.getLabel();
+        String description = menuItem.getDescription();
+        SpannableString spanString = new SpannableString(label + "\n" + description);
+        //spanString.setSpan(new UnderlineSpan(), 0, label.length(), 0);
+        spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, label.length(), 0);
+
+        txtListChild.setText(spanString);
+
         return convertView;
     }
 
