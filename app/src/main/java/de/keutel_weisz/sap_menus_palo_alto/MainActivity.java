@@ -50,14 +50,10 @@ public class MainActivity extends AppCompatActivity {
         cafeMenuPagerAdapter = new CafeMenuPagerAdapter(getSupportFragmentManager());
         cafeMenuViewPager = (ViewPager) findViewById(R.id.activity_main_cafe_menu_viewpager);
         cafeMenuViewPager.setAdapter(cafeMenuPagerAdapter);
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
 
         (new ApiCallerTask()).execute("today");
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -8,4 +8,6 @@
     <color name="sapDarkBlue">#1B61BC</color>
     <color name="sapOrange">#F0AB01</color>
 
+    <color name="fragment_cafemenu_listview_listview_header_background">#FFECB3</color>
+
 </resources>

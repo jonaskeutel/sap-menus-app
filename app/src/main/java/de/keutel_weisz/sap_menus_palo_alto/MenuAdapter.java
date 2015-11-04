@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
-import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,7 +98,6 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
 
         return convertView;

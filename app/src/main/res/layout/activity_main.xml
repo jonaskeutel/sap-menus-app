@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/activity_main_pager_title_strip_height"
             android:layout_gravity="top"
-            android:background="@color/sapOrange"
+            android:background="@color/colorPrimary"
             android:paddingBottom="@dimen/activity_main_pager_title_strip_padding"
             android:paddingTop="@dimen/activity_main_pager_title_strip_padding"
             android:textColor="#fff" />
@@ -48,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/activity_main_default_margin"
+        app:backgroundTint="@color/colorPrimary"
         android:src="@android:drawable/ic_menu_rotate" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -9,7 +9,7 @@
 
     <!-- Cafe Fragment ListView Header -->
     <dimen name="fragment_cafemenu_listview_header_fontsize">14sp</dimen>
-    <dimen name="fragment_cafemenu_listview_header_height">40dp</dimen>
+    <dimen name="fragment_cafemenu_listview_header_height">20dp</dimen>
     <dimen name="fragment_cafemenu_listview_header_padding">8dp</dimen>
 
 </resources>

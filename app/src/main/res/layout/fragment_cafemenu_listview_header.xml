@@ -12,6 +12,9 @@
         android:layout_height="@dimen/fragment_cafemenu_listview_header_height"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:textSize="@dimen/fragment_cafemenu_listview_header_fontsize"
-        android:gravity="center_vertical|center_horizontal" />
+        android:gravity="center_vertical|center_horizontal"
+        android:textColor="#000"
+        android:textAllCaps="true"
+        />
 
 </LinearLayout>
