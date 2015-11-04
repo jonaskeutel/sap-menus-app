@@ -34,16 +34,10 @@ public class MenuBackendClient {
 
 
     public List<DayMenu> getWeekMenu() {
-
-        // Lazy initialization
-        if (weekMenu == null) {
-            weekMenu = fetchWeekMenuFromServer();
-        }
-
         return weekMenu;
     }
 
-    private List<DayMenu> fetchWeekMenuFromServer() {
+    public List<DayMenu> fetchWeekMenuFromServer() {
         // Make Call to Backend
         String endpoint = "http://" + HOSTNAME + ":" + PORT + "/" + ENDPOINT_TODAY_MENU;
         
@@ -60,6 +54,7 @@ public class MenuBackendClient {
             weekMenu = new ArrayList<>();
         }
 
+        this.weekMenu = weekMenu;
         return weekMenu;
     }
 

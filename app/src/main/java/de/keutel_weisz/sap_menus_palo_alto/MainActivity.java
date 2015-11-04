@@ -50,8 +50,13 @@ public class MainActivity extends AppCompatActivity {
         cafeMenuPagerAdapter = new CafeMenuPagerAdapter(getSupportFragmentManager());
         cafeMenuViewPager = (ViewPager) findViewById(R.id.activity_main_cafe_menu_viewpager);
         cafeMenuViewPager.setAdapter(cafeMenuPagerAdapter);
+    }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
 
+        (new ApiCallerTask()).execute("today");
     }
 
     @Override
@@ -123,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public List<DayMenu> doInBackground(String... s) {
             backendClient = new MenuBackendClient();
-            List<DayMenu> weekMenu = backendClient.getWeekMenu();
+            List<DayMenu> weekMenu = backendClient.fetchWeekMenuFromServer();
 
 
             return weekMenu;

@@ -29,7 +29,8 @@ public class CafeMenuFragment extends Fragment {
 
         // If menu is available (i.e. after API has been called), fill list
         MainActivity parent = (MainActivity) getActivity();
-        if(parent.backendClient != null ) {
+        if(parent.backendClient.getWeekMenu() != null ) {
+            // TODO deal with different methods (week vs. today vs. tomorrow)
             HashMap<String,List<MenuItem>> categories = parent.backendClient.getWeekMenu().get(0).getCategoriesForCafe(cafeId);
             updateMenuItems(categories);
         }
