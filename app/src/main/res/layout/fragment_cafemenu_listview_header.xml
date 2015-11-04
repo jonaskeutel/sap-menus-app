@@ -3,7 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/fragment_cafemenu_listview_header_padding">
+    android:padding="@dimen/fragment_cafemenu_listview_header_padding"
+    android:background="@color/fragment_cafemenu_listview_listview_header_background">
 
 
     <TextView
@@ -13,7 +14,6 @@
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:textSize="@dimen/fragment_cafemenu_listview_header_fontsize"
         android:gravity="center_vertical|center_horizontal"
-        android:textColor="#000"
         android:textAllCaps="true"
         />
 

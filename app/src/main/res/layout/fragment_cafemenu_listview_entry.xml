@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minHeight="@dimen/fragment_cafemenu_listview_item_min_height"
+    android:padding="@dimen/fragment_cafemenu_listview_header_padding"
+    android:gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:id="@+id/fragment_main_tv_menu_heading"
+        android:layout_marginBottom="@dimen/fragment_cafemenu_listview_item_label_margin_bottom"
+        android:textSize="@dimen/fragment_cafemenu_listview_item_label_fontsize" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragment_main_tv_menu_description"
+        android:textColor="@color/lightGrey"
+        android:textSize="@dimen/fragment_cafemenu_listview_item_description_fontsize" />
+</LinearLayout>

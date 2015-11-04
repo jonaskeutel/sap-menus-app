@@ -1,9 +1,6 @@
 package de.keutel_weisz.sap_menus_palo_alto;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,19 +45,19 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.fragment_main_menu_entry, null);
+            convertView = inflater.inflate(R.layout.fragment_cafemenu_listview_entry, null);
         }
 
-        TextView txtListChild = (TextView) convertView
+        TextView entryLabel = (TextView) convertView
                 .findViewById(R.id.fragment_main_tv_menu_heading);
+        TextView entryDescription = (TextView) convertView
+                .findViewById(R.id.fragment_main_tv_menu_description);
 
         String label = menuItem.getLabel();
         String description = menuItem.getDescription();
-        SpannableString spanString = new SpannableString(label + "\n" + description);
-        //spanString.setSpan(new UnderlineSpan(), 0, label.length(), 0);
-        spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, label.length(), 0);
 
-        txtListChild.setText(spanString);
+        entryLabel.setText(label);
+        entryDescription.setText(description);
 
         return convertView;
     }
@@ -112,5 +109,6 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
+
 
 }

@@ -4,10 +4,14 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="black">#000</color>
+    <color name="lightGrey">#999</color>
+
+
     <color name="sapLightBlue">#00B7F0</color>
     <color name="sapDarkBlue">#1B61BC</color>
     <color name="sapOrange">#F0AB01</color>
 
-    <color name="fragment_cafemenu_listview_listview_header_background">#FFECB3</color>
+    <color name="fragment_cafemenu_listview_listview_header_background">#e4e4e4</color>
 
 </resources>
