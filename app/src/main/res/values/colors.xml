@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#1B61BC</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="sapLightBlue">#00B7F0</color>
+    <color name="sapDarkBlue">#1B61BC</color>
+    <color name="sapOrange">#F0AB01</color>
+
 </resources>
